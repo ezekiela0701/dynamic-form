@@ -5,7 +5,7 @@
 {% block body %}
 
     <nav class="navbar navbar-default navbar-fixed" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
+        
         <div class="navbar-header">	
             <a class="navbar-brand" href="#">Creation de formulaire dynamique</a>
         </div>
@@ -64,7 +64,7 @@
                     
                 </div>
 
-                <div class="col-md-9" style="padding: 30px;">
+                <div class="col-md-7" style="padding: 30px;">
 
                     <div style="background-color: #fff; border-radius: 5px; padding: 20px; 
                             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175); ">
@@ -72,7 +72,12 @@
                         <div class="text-muted empty-form text-center" style="font-size: 24px;">Drag & Drop elements to build form.
                         </div>
 
-                        <form action="#" id="form-add">
+                        <form  id="form-add">
+
+                            <div>
+                                <label for="Title" >Titre du page</label>
+                                <input type="text" name="title" id="form-title" class="form-control">
+                            </div>
 
                             <div class="row form-body">
                                 <div class="col-md-12 droppable sortable">
@@ -98,8 +103,62 @@
 
                 </div>
 
+                <div class="col-md-2" style="padding: 0px 30px 30px 30px; background-color: #fff;">
+                    <h3>Pages creer</h3>
+                    <ul>
+                        
+                        {% for list in page_lists %}
+                            <li><a href="{{path('home.show.page' , {"slug":list.slug})}}" target="_blank">{{ list.title }}</a></li>
+
+                        {% endfor %}
+
+                    </ul>
+                </div>
             </div>
 
         </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+
+        document.getElementById('form-add').addEventListener('submit', function (event) {
+            event.preventDefault(); 
+
+            var title       = document.getElementById('form-title').value;
+
+            const toolsElements = document.querySelectorAll('.tools');
+            toolsElements.forEach(tool => tool.remove());
+
+            var formHtml    = document.querySelector('.form-body').innerHTML;
+
+            fetch('/add-form', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest', 
+                },
+                body: JSON.stringify({ 
+
+                    title: title,
+                    formHtml: formHtml 
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Formulaire sauvegardé avec succès !');
+                } else {
+                    alert('Erreur lors de la sauvegarde.');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur :', error);
+            });
+        });
+
+    </script>
 
 {% endblock %}

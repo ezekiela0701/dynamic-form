@@ -1,34 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Dynamic Form</title>
+        <title>Dynamic Form</title>
 
-    {# <link rel="stylesheet" href="{{asset('foAsset/plugins/fontawesome-free/css/all.min.css')}}"> #}
+        <link rel="stylesheet" href="{{asset('form-builder/css/jquery.ui.theme.css')}}" />
+        <link rel="stylesheet" href="{{asset('form-builder/css/bootstrap.css')}}" />
+        <link rel="stylesheet" href="{{asset('form-builder/css/style.css')}}" />
 
-    <link rel="stylesheet" href="{{asset('form-builder/css/jquery.ui.theme.css')}}" />
-    <link rel="stylesheet" href="{{asset('form-builder/css/bootstrap.css')}}" />
-    <link rel="stylesheet" href="{{asset('form-builder/css/style.css')}}" />
+    {% block stylesheets %}{% endblock %}
 
-  {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
 
-</head>
-<body>
+        {% block body %}{% endblock %}
 
-    {% block body %}{% endblock %}
+        <script src="{{asset('form-builder/js/jquery.min.js')}}"></script>
+        <script src="{{asset('form-builder/js/jquery.ui.min.js')}}"></script>
+        <script src="{{asset('form-builder/js/bootstrap.js')}}"></script>
+        <script src="{{asset('form-builder/js/beautifyhtml.js')}}"></script>
+        <script src="{{asset('form-builder/js/dynamic.js')}}"></script>
 
-<body>
-
-
-	<script src="{{asset('form-builder/js/jquery.min.js')}}"></script>
-	<script src="{{asset('form-builder/js/jquery.ui.min.js')}}"></script>
-	<script src="{{asset('form-builder/js/bootstrap.js')}}"></script>
-	<script src="{{asset('form-builder/js/beautifyhtml.js')}}"></script>
-	<script src="{{asset('form-builder/js/dynamic.js')}}"></script>
-
-{% block javascripts %}{% endblock %}
-</body>
+    {% block javascripts %}{% endblock %}
+    </body>
 </html>

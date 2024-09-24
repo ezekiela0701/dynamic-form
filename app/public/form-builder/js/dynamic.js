@@ -58,7 +58,7 @@ var setup_draggable = function() {
                     .css({"position": "static", "left": null, "right": null})
                     .appendTo(this);
                     
-                // update id
+                
                 var id = $orig.find(":input").attr("id");
                 
                 if(id) {
