@@ -18,5 +18,8 @@
 
     php bin/console doctrine:database:create
 
+#### Lien de l'application ####
+    http://localhost:8000
+
 
 

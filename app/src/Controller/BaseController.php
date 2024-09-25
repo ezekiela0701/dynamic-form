@@ -58,6 +58,8 @@ abstract class BaseController extends AbstractController
         }
     }
 
+
+    //transformation des titres en slug pour lien du page
     function slugify(string $text): string
     {
 
