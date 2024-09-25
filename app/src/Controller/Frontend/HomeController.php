@@ -27,6 +27,7 @@ class HomeController extends BaseController
 
     }
 
+    //rajout des elements form html dans la bd
     #[Route('/add-form', name: 'home.add.form', methods: ['POST'])]
     public function add(Request $request)
     {
@@ -59,19 +60,6 @@ class HomeController extends BaseController
 
     }
 
-    #[Route('/show-pages/{slug}', name: 'home.show.page')]
-    public function addFormPage(Request $request, string $slug) 
-    {
-
-        $pageGenerateList = $this->getRepository(PageGenerate::class)->findOneBy(["slug"=> $slug]) ;
-      
-        return $this->render('Frontend/Home/form_pages.html.twig', [
-
-            'page_list'         => $pageGenerateList , 
-            'controller_name'   => 'FrontendIndexController'
-
-        ]);
-
-    }
+    
 
 }

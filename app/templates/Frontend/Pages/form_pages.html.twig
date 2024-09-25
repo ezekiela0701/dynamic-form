@@ -1,0 +1,114 @@
+{% extends 'Frontend/base.html.twig' %} 
+{% block title %}Hello FrontendIndexController!{% endblock %} 
+
+{% block body %}
+
+    <div class="card container ">
+        <div class="card-header">
+            <h3>
+                <center>{{ page_list.title }}</center>
+            </h3>
+        </div>
+        <div class="card-body">
+
+        
+        
+        <form id="submit-form-page">
+            {{ page_list.fields | raw }}
+            <input type="hidden" id="slug" value="{{slug}}">
+        </form>
+
+        <table class="table table-bordered table-striped">
+
+            <thead>
+                <tr>
+                    {% set headers = [] %}
+
+                    {# Récupérer toutes les clés uniques #}
+                    {% for comment in page_list.submittedComments %}
+                        {% for key, value in comment.comment %}
+                            {% if key not in headers and key != 'slug' %}
+                                {% set headers = headers|merge([key]) %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+
+                    {# Afficher les en-têtes du tableau #}
+                    <th>ID</th>
+                    {% for header in headers %}
+                        <th>{{ header }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for comment in page_list.submittedComments %}
+                    <tr>
+                        <td>{{ comment.id }}</td>
+                        {% for header in headers %}
+                            <td>{{ comment.comment[header] is defined ? comment.comment[header] : '' }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+        </div>
+
+    </div>
+
+{% endblock %} 
+
+{% block javascripts %}
+
+<script>
+
+  document.getElementById("submit-form-page").addEventListener("submit", function (e) {
+      e.preventDefault(); 
+
+      const form = e.target;
+      const formData = {};
+
+      // Sélectionner tous les éléments form-group
+      const formGroups = form.querySelectorAll(".form-group");
+      formData["slug"] = document.getElementById('slug').value;
+
+      formGroups.forEach((group) => {
+        const label = group.querySelector("label"); 
+        const input = group.querySelector("input, textarea"); 
+        if (label && input) {
+          const key     = label.textContent.trim(); 
+          const value   = input.value; 
+          formData[key] = value; 
+        }
+      });
+
+      // Convertir en JSON
+      const formDataJson = JSON.stringify(formData);
+      console.log(formDataJson);
+
+      fetch("/add-comment-pages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: formDataJson,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.success) {
+                alert('Commentaire sauvegardé avec succès !');
+                location.reload();
+            } else {
+                alert('Erreur lors de la sauvegarde du commentaire.');
+            }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    });
+
+</script>
+
+{% endblock %}

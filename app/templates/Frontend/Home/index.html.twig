@@ -14,8 +14,8 @@
 
             <div class="form-group">	
                 <select class="form-control" id="n-columns">
-                    <option value="1">1 Column</option>
-                    <option value="2">2 Columns</option>
+                    <option value="1">1 colonne</option>
+                    <option value="2">2 colonnes</option>
                 </select>
             </div>
 
@@ -31,34 +31,28 @@
                     <div class="form-group draggable">
                         <label for="input-text-1" >Text Input</label>
                         
-                        <input type="text" class="form-control" id="input-ip">
+                        <input type="text" name="textInput[]" class="form-control" >
                     </div>
 
 
                     <div class="form-group draggable">
                         <label for="input-text-1" >Number Input</label>
                         
-                        <input type="number" class="form-control" id="input-ip">
+                        <input type="number" name="numberInput[]" class="form-control" >
                     </div>
 
                     <div class="form-group draggable">
                         <label for="input-password-1" >Date</label>
-                        <input type="date" class="form-control" id="date"
-                            placeholder="date">
+                        <input type="date" name="dateInput[]" class="form-control" placeholder="date">
                     </div>
 
                     <div class="form-group draggable">
                         <label for="text-area" >Text Area</label>
-                        <textarea src="text" class="form-control"></textarea>
-                    </div>
-
-                    <div class="form-group draggable">
-                        <label for="input-file-1" >File input</label>
-                        <input type="file" id="input-file-1">
+                        <textarea src="text" name="textareaInput[]" class="form-control"></textarea>
                     </div>
 
                     <div class="form-group draggable" style="padding-right: 20px;">
-                        <button type="submit" class="btn btn-default" >Submit</button>
+                        <button type="submit" name="buttonInput[]" class="btn btn-primary" >Submit</button>
                     </div>
 
                     
@@ -69,7 +63,7 @@
                     <div style="background-color: #fff; border-radius: 5px; padding: 20px; 
                             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175); ">
 
-                        <div class="text-muted empty-form text-center" style="font-size: 24px;">Drag & Drop elements to build form.
+                        <div class="text-muted empty-form text-center" style="font-size: 24px;">Glisser & Déposer les formulaires à generer
                         </div>
 
                         <form  id="form-add">
@@ -105,14 +99,12 @@
 
                 <div class="col-md-2" style="padding: 0px 30px 30px 30px; background-color: #fff;">
                     <h3>Pages creer</h3>
-                    <ul>
                         
                         {% for list in page_lists %}
-                            <li><a href="{{path('home.show.page' , {"slug":list.slug})}}" target="_blank">{{ list.title }}</a></li>
+                            <p><a href="{{path('page.show' , {"slug":list.slug})}}" target="_blank">{{ list.title }}</a></p>
 
                         {% endfor %}
 
-                    </ul>
                 </div>
             </div>
 
@@ -150,6 +142,7 @@
             .then(data => {
                 if (data.success) {
                     alert('Formulaire sauvegardé avec succès !');
+                    location.reload();
                 } else {
                     alert('Erreur lors de la sauvegarde.');
                 }
