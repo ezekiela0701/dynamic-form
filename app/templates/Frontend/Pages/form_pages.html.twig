@@ -18,7 +18,7 @@
             <input type="hidden" id="slug" value="{{slug}}">
         </form>
 
-        <table class="table table-bordered table-striped">
+        <table id="listComments" class="table table-bordered table-striped">
 
             <thead>
                 <tr>
@@ -61,6 +61,8 @@
 {% endblock %} 
 
 {% block javascripts %}
+
+{{ include('Frontend/Components/blockjs.datatable.html.twig', { 'table_id': 'listComments', 'targets': 5 }) }}
 
 <script>
 
