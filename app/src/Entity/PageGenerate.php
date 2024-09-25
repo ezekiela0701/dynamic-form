@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PageGenerateRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +24,17 @@ class PageGenerate
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
+
+    /**
+     * @var Collection<int, SubmittedComment>
+     */
+    #[ORM\OneToMany(targetEntity: SubmittedComment::class, mappedBy: 'pageGenerate')]
+    private Collection $submittedComments;
+
+    public function __construct()
+    {
+        $this->submittedComments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -60,6 +73,36 @@ class PageGenerate
     public function setTitle(string $title): static
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SubmittedComment>
+     */
+    public function getSubmittedComments(): Collection
+    {
+        return $this->submittedComments;
+    }
+
+    public function addSubmittedComment(SubmittedComment $submittedComment): static
+    {
+        if (!$this->submittedComments->contains($submittedComment)) {
+            $this->submittedComments->add($submittedComment);
+            $submittedComment->setPageGenerate($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubmittedComment(SubmittedComment $submittedComment): static
+    {
+        if ($this->submittedComments->removeElement($submittedComment)) {
+            // set the owning side to null (unless already changed)
+            if ($submittedComment->getPageGenerate() === $this) {
+                $submittedComment->setPageGenerate(null);
+            }
+        }
 
         return $this;
     }
